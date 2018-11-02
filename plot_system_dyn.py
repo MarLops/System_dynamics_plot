@@ -205,6 +205,5 @@ def Lyap(X_o=0.1,deltaR_0=0.0000001,func=Logistica,Parameters=[2],Parameter_choo
 				f.write(str(i) + "," + str(j))
 
 
-orbita_diagrama()
 
 
