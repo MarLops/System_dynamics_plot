@@ -202,9 +202,7 @@ def Lyap(X_o=0.1,deltaR_0=0.0000001,func=Logistica,Parameters=[2],Parameter_choo
 		arquivo = "Lyap_" + "Delta_" + str(deltaR_0) + "_.txt"
 		with open(arquivo,'w') as f:
 			for i,j in zip(Parametro_variavel,media_l):
-				f.write(str(i) + "," + str(j))
+				f.write(str(i) + "," + str(j) + "\n")
 
-
-orbita_diagrama()
 
 
