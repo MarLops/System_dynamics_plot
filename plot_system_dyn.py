@@ -15,7 +15,7 @@ def reta(Inicial,Final,Point_continuos):
 	X = np.linspace(0,1,Point_continuos)
 	return  X
 
-def cobweb(X_o=0.1,N_steps=500,func=Logistica,Parameters = [2],Inicial_continuo=0,Final_continuo=1,N_steps_continuo = 20000,save=False):
+def cobweb(X_o=0.1,N_steps=500,func=Logistica,Parameters = [2],Inicial_continuo=0,Final_continuo=1,N_steps_continuo = 20000,save=False,export=False):
 
 	""" Create cobweb 
 	X_o = initial value
@@ -82,6 +82,14 @@ def cobweb(X_o=0.1,N_steps=500,func=Logistica,Parameters = [2],Inicial_continuo=
 			j = j + "_" + str(i)
 		title = str(func).split()[1] + "_Parameters_" + j + "_.png" 
 		plt.savefig(title)
+		
+	if export != False:
+		for i in Parameters:
+			j = j + "_" + str(i)
+		arquivo = "Cobweb_" + "Parameters_" + j + "_.txt"
+		with open(arquivo,'w') as f:
+			for i,j in zip(eixo_x,eixo_y):
+				f.write(str(i) + "," + str(j) + '/n')
 
 def orbita_diagrama(X_o=0.1,N_steps=3000,N_end_points=1000,func=Logistica,Parameters=[2],Parameter_choose=0,Inicial_parameter=2.8,Final_parameter=4,N_points=2000,save=False):
 	
@@ -113,7 +121,8 @@ def orbita_diagrama(X_o=0.1,N_steps=3000,N_end_points=1000,func=Logistica,Parame
 		R =[i for j in range(len(Pontos_desejado))]
 		s = [1*1**1 for j in range(len(Pontos_desejado))]
 		plt.scatter(R,Pontos_desejado,color='black',s=s)
-
+		
+		
 	plt.xlabel(r'Paramêtro')
 	plt.ylabel(r'$X_n$')
 	
@@ -130,7 +139,7 @@ def mudanca(x_1,deltaR_0,deltaR_1):
 def deltaR(x_0,x_1):
 	return x_1 - x_0
 
-def labda(deltaR_0,deltaR_1):
+def Lyap_local(deltaR_0,deltaR_1):
 	return np.log(abs(deltaR_1/deltaR_0))
 
 def Lyap(X_o=0.1,deltaR_0=0.0000001,func=Logistica,Parameters=[2],Parameter_choose=0,N_steps=4000,Inicial_parameter=2,Final_parameter=4,N_points=2000,save=False,export=False):
@@ -176,7 +185,7 @@ def Lyap(X_o=0.1,deltaR_0=0.0000001,func=Logistica,Parameters=[2],Parameter_choo
 
 			x_p = x_n_n[i] + deltaR_0
 			delta.append(deltaR(x_n_n[i],x_n_p[i]))
-			l.append(labda(deltaR_0,delta[i]))
+			l.append(Lyap_local(deltaR_0,delta[i]))
 
 			x_n_n.append(func(x_n_n[i],Parameters))
 			x_n_p.append(func(x_p,Parameters))
